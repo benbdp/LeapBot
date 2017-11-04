@@ -6,10 +6,8 @@ for p in ports:
     print(p[0])
     ser = serial.Serial(p[0], baudrate=9600, timeout=3)
 
-def write(serial,throttle):
-    serial.write((str(throttle) + '\r\n').encode())
 
 
 if __name__ == "__main__":
     entry = input("enter: ")
-    write(entry)
+    ser.write((str(entry) + '\r\n').encode())
