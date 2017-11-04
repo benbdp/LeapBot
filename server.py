@@ -1,44 +1,35 @@
-#!/usr/bin/python           # This is client.py file
-# https://www.tutorialspoint.com/python/python_networking.htm
-# first of all import the socket library
 import socket
+import sys
 
-# next create a socket object
-s = socket.socket()
-print("Socket successfully created")
+# Create a TCP/IP socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# reserve a port on your computer in our
-# case it is 12345 but it can be anything
-port = 12345
+# Bind the socket to the port
+server_address = ('localhost', 10000)
+print >>sys.stderr, 'starting up on %s port %s' % server_address
+sock.bind(server_address)
 
-# Next bind to the port
-# we have not typed any ip in the ip field
-# instead we have inputted an empty string
-# this makes the server listen to requests
-# coming from other computers on the network
-s.bind(('', port))
-print("socket binded to %s" % (port))
+# Listen for incoming connections
+sock.listen(1)
 
-# put the socket into listening mode
-s.listen(5)
-print("socket is listening")
+while True:
+    # Wait for a connection
+    print >>sys.stderr, 'waiting for a connection'
+    connection, client_address = sock.accept()
+    try:
+        print >> sys.stderr, 'connection from', client_address
 
-# a forever loop until we interrupt it or
-# an error occurs
+        # Receive the data in small chunks and retransmit it
+        while True:
+            data = connection.recv(16)
+            print >> sys.stderr, 'received "%s"' % data
+            if data:
+                print >> sys.stderr, 'sending data back to the client'
+                connection.sendall(data)
+            else:
+                print >> sys.stderr, 'no more data from', client_address
+                break
 
-try:
-    c, addr = s.accept()
-    print('Got connection from', addr)
-
-    while True:
-        # Establish connection with client.
-
-
-        entry = input("enter: ")
-
-        # send a thank you message to the client.
-        c.send(entry)
-
-        # Close the connection with the client
-except Exception:
-    c.close()
+    finally:
+        # Clean up the connection
+        connection.close()
