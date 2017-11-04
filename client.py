@@ -1,11 +1,16 @@
-#!/usr/bin/python           # This is client.py file
-# https://www.tutorialspoint.com/python/python_networking.htm
-import socket               # Import socket module
+# Import socket module
+import socket
 
-s = socket.socket()         # Create a socket object
-host = socket.gethostname() # Get local machine name
-port = 12345                # Reserve a port for your service.
+# Create a socket object
+s = socket.socket()
 
-s.connect((host, port))
+# Define the port on which you want to connect
+port = 12345
+
+# connect to the server on local computer
+s.connect(('192.168.43.29', port))
+
+# receive data from the server
 print(s.recv(1024))
-s.close                     # Close the socket when done
+# close the connection
+s.close()
