@@ -1,15 +1,18 @@
+# Author: Benjamin Plamondon
+# helpful reference for networking: https://pymotw.com/2/socket/tcp.html
 import socket
 
-# Create a TCP/IP socket
+# create socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # enter the ip of the server
 ip = raw_input("Enter the IP of server: ")
 
-# Connect the socket to the port where the server is listening
+# connect socket to desired port
 server_address = (ip, 5050)
 print 'connecting to %s port %s' % server_address
 sock.connect(server_address)
+
 try:
 
     # Send data
