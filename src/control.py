@@ -5,6 +5,8 @@
 # https://developer.leapmotion.com/sdk_agreement, or another agreement         #
 # between Leap Motion and you, your company or other organization.             #
 ################################################################################
+import socket
+
 import os, sys, inspect
 src_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
 arch_dir = '../lib/x64' if sys.maxsize > 2**32 else '../lib/x86'

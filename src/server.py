@@ -12,30 +12,28 @@ import Leap, sys
 
 # DEFINE LEAP
 class SampleListener(Leap.Listener):
-    def on_frame(self, conttroller):
-        def on_frame(self, controller):
-            # Get the most recent frame and report some basic information
-            frame = controller.frame()
-            if len(frame.hands) == 2:
-                for hand in frame.hands:
-                    if hand.is_left:
-                        leftHeight = hand.palm_position.y
-                        leftForward = hand.palm_position.z
-                    else:
-                        rightHeight = hand.palm_position.y
-                        rightForward = hand.palm_position.z
-                try:
-                    throttle = (leftForward+rightForward)/2
-                    turn = (leftHeight - rightHeight)
-                    transmit = str(throttle) + ',' + str(turn)
-                    print transmit
-                    connection.sendall(transmit)
-                except:
-                    pass
-            else:
-                transmit = '0' + ',' + '0'
-                print transmit
+
+    def on_frame(self, controller):
+        # Get the most recent frame and report some basic information
+        frame = controller.frame()
+        if len(frame.hands) == 2:
+            for hand in frame.hands:
+                if hand.is_left:
+                    leftHeight = hand.palm_position.y
+                    leftForward = hand.palm_position.z
+                else:
+                    rightHeight = hand.palm_position.y
+                    rightForward = hand.palm_position.z
+            try:
+                throttle = int((leftForward+rightForward)/2)
+                turn = int(leftHeight - rightHeight)
+                transmit = str(throttle) + ',' + str(turn)
                 connection.sendall(transmit)
+            except:
+                pass
+        else:
+            transmit = '0' + ',' + '0'
+            connection.sendall(transmit)
 
 # find the local ip address of the server
 hostname = socket.gethostname()
@@ -65,15 +63,14 @@ while True:
         controller.add_listener(listener)
 
         while True:
-            controller.add_listener(listener)
+            try:
+                sys.stdin.readline()
+            except KeyboardInterrupt:
+                pass
+            finally:
+                # Remove the sample listener when done
+                controller.remove_listener(listener)
 
-        # try:
-        #     print "start read"
-        #     sys.stdin.readline()
-        # except KeyboardInterrupt:
-        #     pass
-        # finally:
-        #     controller.remove_listener(listener)
     finally:
             connection.close()
 
