@@ -16,7 +16,7 @@ sock.connect(server_address)
 try:
 
     # Send data
-    message = 'This is the message.  It will be repeated.'
+    message = 'I am the client'
     print 'sending "%s"' % message
     sock.sendall(message)
 
