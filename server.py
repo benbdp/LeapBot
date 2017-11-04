@@ -26,14 +26,9 @@ while True:
 
         # Receive the data in small chunks and retransmit it
         while True:
-            data = connection.recv(16)
-            print 'received "%s"' % data
-            if data:
-                print 'sending data back to the client'
-                connection.sendall(data)
-            else:
-                print 'no more data from', client_address
-                break
+            data = raw_input("Enter power: ")
+            connection.sendall(data)
+
 
     finally:
         # Clean up the connection
