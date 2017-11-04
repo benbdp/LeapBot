@@ -21,8 +21,8 @@ try:
     while True:
         amount_received = 0
 
-        while amount_received < 7:
-            data = sock.recv(7)
+        while amount_received < 9:
+            data = sock.recv(9)
             amount_received += len(data)
             print data
             ser.write((data + '\r\n').encode())
