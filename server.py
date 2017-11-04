@@ -24,12 +24,10 @@ while True:
     try:
         print 'connection from', client_address
 
-        # Receive the data in small chunks and retransmit it
         while True:
             data = raw_input("Enter power: ")
             connection.sendall(data)
 
-
     finally:
-        # Clean up the connection
+        # close connection
         connection.close()
