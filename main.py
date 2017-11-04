@@ -1,3 +1,2 @@
-import time
-
-print(time.time())
+# Author: Benjamin Plamondon
+# Code for HackUMassV
