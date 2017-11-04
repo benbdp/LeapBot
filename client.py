@@ -13,16 +13,15 @@ server_address = (ip, 5050)
 print 'connecting to %s port %s' % server_address
 sock.connect(server_address)
 
-power = str(100)
 
 try:
     while True:
         # Look for the response
         amount_received = 0
-        amount_expected = len(power)
+        amount_expected = 7
 
         while amount_received < amount_expected:
-            data = sock.recv(16)
+            data = sock.recv(7)
             amount_received += len(data)
             print 'received "%s"' % data
 
