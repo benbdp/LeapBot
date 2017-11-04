@@ -16,14 +16,15 @@ sock.connect(server_address)
 power = str(100)
 
 try:
-    # Look for the response
-    amount_received = 0
-    amount_expected = len(power)
+    while True:
+        # Look for the response
+        amount_received = 0
+        amount_expected = len(power)
 
-    while amount_received < amount_expected:
-        data = sock.recv(16)
-        amount_received += len(data)
-        print 'received "%s"' % data
+        while amount_received < amount_expected:
+            data = sock.recv(16)
+            amount_received += len(data)
+            print 'received "%s"' % data
 
 finally:
     print 'closing socket'
