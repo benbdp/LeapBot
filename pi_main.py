@@ -6,8 +6,9 @@ for p in ports:
     print(p[0])
     ser = serial.Serial(p[0], baudrate=9600, timeout=3)
 
-
+ser = serial.Serial("dev/ttyAMA0", baudrate=9600, timeout=3)
 
 if __name__ == "__main__":
-    entry = input("enter: ")
-    ser.write((str(entry) + '\r\n').encode())
+    while True:
+        entry = input("enter: ")
+        ser.write((str(entry) + '\r\n').encode())
