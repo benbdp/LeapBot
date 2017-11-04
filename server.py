@@ -25,13 +25,20 @@ print("socket is listening")
 
 # a forever loop until we interrupt it or
 # an error occurs
-while True:
-    # Establish connection with client.
+
+try:
     c, addr = s.accept()
     print('Got connection from', addr)
 
-    # send a thank you message to the client.
-    c.send('Thank you for connecting')
+    while True:
+        # Establish connection with client.
 
-    # Close the connection with the client
+
+        entry = input("enter: ")
+
+        # send a thank you message to the client.
+        c.send(entry)
+
+        # Close the connection with the client
+except Exception:
     c.close()
