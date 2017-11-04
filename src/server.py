@@ -24,22 +24,18 @@ class SampleListener(Leap.Listener):
                     else:
                         rightHeight = hand.palm_position.y
                         rightForward = hand.palm_position.z
-                    try:
-                        throttle = (leftForward+rightForward)/2
-                        turn = (leftHeight - rightHeight)
-                        transmit = throttle + ',' + turn
-                        connection.sendall(transmit)
-                    except:
-                        pass
+                try:
+                    throttle = (leftForward+rightForward)/2
+                    turn = (leftHeight - rightHeight)
+                    transmit = str(throttle) + ',' + str(turn)
+                    print transmit
+                    connection.sendall(transmit)
+                except:
+                    pass
             else:
-                transmit = 0 + ',' + 0
-
-            throttle = raw_input("Enter throttle: ")
-            steering = raw_input("Enter steering: ")
-            transmit = throttle + ',' + steering
-            print len(transmit)
-            connection.sendall(transmit)
-
+                transmit = '0' + ',' + '0'
+                print transmit
+                connection.sendall(transmit)
 
 # find the local ip address of the server
 hostname = socket.gethostname()
@@ -68,12 +64,16 @@ while True:
 
         controller.add_listener(listener)
 
-        try:
-            sys.stdin.readline()
-        except KeyboardInterrupt:
-            pass
-        finally:
-            controller.remove_listener(listener)
-            connection.close()
+        while True:
+            controller.add_listener(listener)
 
+        # try:
+        #     print "start read"
+        #     sys.stdin.readline()
+        # except KeyboardInterrupt:
+        #     pass
+        # finally:
+        #     controller.remove_listener(listener)
+    finally:
+            connection.close()
 
