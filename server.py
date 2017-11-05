@@ -27,7 +27,9 @@ while True:
         while True:
             throttle = raw_input("Enter throttle: ")
             steering = raw_input("Enter steering: ")
-            connection.sendall(throttle+','+steering)
+            transmit = throttle+','+steering
+            print len(transmit)
+            connection.sendall(transmit)
 
     finally:
         # close connection
