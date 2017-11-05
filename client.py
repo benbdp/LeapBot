@@ -24,7 +24,6 @@ try:
         while amount_received < 9:
             data = sock.recv(9)
             amount_received += len(data)
-            print data
             ser.write((data + '\r\n').encode())
 
 finally:
