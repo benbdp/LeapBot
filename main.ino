@@ -1,3 +1,4 @@
+// Author: Benjamin Plamondon
 #include <Servo.h> 
 #include <Wire.h>
 #include <Adafruit_MotorShield.h>
@@ -26,31 +27,32 @@ void setup() {
 void loop() {
   if (Serial.available() > 0) {
     reading = Serial.readStringUntil('\n'); // read from buffer until newline
-    comma_index = reading.indexOf(',');
-    first_values = reading.substring(0, comma_index);
-    second_values = reading.substring(comma_index+1,reading.length());
-    left_values = first_values.toInt();
-    right_values = second_values.toInt();
+    comma_index = reading.indexOf(','); // find index of delimiter
+    first_values = reading.substring(0, comma_index); // parse left values
+    second_values = reading.substring(comma_index+1,reading.length()); // parse right values
+    left_values = first_values.toInt(); // cast to int
+    right_values = second_values.toInt(); // cast to int
    }
-   right();
+   right(); 
    left();
 }
 
 void right(){
-  //make right turn
+  //run forward
   if (right_values > 0){
     motor_a->run(FORWARD);
     motor_b->run(FORWARD);
     motor_a->setSpeed(right_values);
     motor_b->setSpeed(right_values);
   }
-  //make left turn
+  //run backward
   if (right_values < 0){
     motor_a->run(BACKWARD);
     motor_b->run(BACKWARD);
     motor_a->setSpeed(abs(right_values));
     motor_b->setSpeed(abs(right_values));
   }
+  // stop
   if (right_values == 0){
     motor_a->run(FORWARD);
     motor_b->run(FORWARD);
@@ -60,21 +62,22 @@ void right(){
 }
 
 void left(){
-  //make right turn
+  //run forward
   if (left_values > 0){
     motor_c->run(FORWARD);
     motor_d->run(FORWARD);
     motor_c->setSpeed(left_values);
     motor_d->setSpeed(left_values);
   }
-  //make left turn
+  //run backward
   if (left_values < 0){
     motor_c->run(BACKWARD);
     motor_d->run(BACKWARD);
     motor_c->setSpeed(abs(left_values));
     motor_d->setSpeed(abs(left_values));
   }
-    if (left_values == 0){
+  // stop
+  if (left_values == 0){
     motor_c->run(FORWARD);
     motor_d->run(FORWARD);
     motor_c->setSpeed(0);
