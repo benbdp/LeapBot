@@ -10,27 +10,44 @@ arch_dir = '../lib/x64' if sys.maxsize > 2**32 else '../lib/x86'
 sys.path.insert(0, os.path.abspath(os.path.join(src_dir, arch_dir)))
 import Leap, sys
 
+leftDiff = 0
+rightDiff = 0
+
+
 # DEFINE LEAP
 class SampleListener(Leap.Listener):
 
     def on_frame(self, controller):
+        global leftDiff
+        global rightDiff
         # Get the most recent frame and report some basic information
         frame = controller.frame()
         if len(frame.hands) == 2:
             for hand in frame.hands:
                 if hand.is_left:
-                    leftHeight = hand.palm_position.y
-                    leftForward = hand.palm_position.z
+
+                    rawLeft = int(hand.palm_position.z)
+                    left = rawLeft+leftDiff
+                    leftDiff = left-rawLeft
+
+                    if left <= 30 and left >= -30:
+                        left = 0
+
                 else:
-                    rightHeight = hand.palm_position.y
-                    rightForward = hand.palm_position.z
-            try:
-                throttle = int((leftForward+rightForward)/2)
-                turn = int(leftHeight - rightHeight)
-                transmit = str(throttle) + ',' + str(turn)
-                connection.sendall(transmit)
-            except:
-                pass
+
+                    rawRight = int(hand.palm_position.z)
+                    right = rawRight+rightDiff
+                    rightDiff = right-rawRight
+
+                    if right <= 30 and right >= -30:
+                        right = 0
+
+                try:
+                    transmit = str(left) + ',' + str(right)
+                    print transmit
+                    connection.sendall(transmit)
+                except:
+                    pass
         else:
             transmit = '0' + ',' + '0'
             connection.sendall(transmit)

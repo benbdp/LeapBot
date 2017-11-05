@@ -23,18 +23,18 @@ class SampleListener(Leap.Listener):
         if len(frame.hands) == 2:
             for hand in frame.hands:
                 if hand.is_left:
-                    leftHeight = hand.palm_position.y
-                    leftForward = hand.palm_position.z
+                    left = -int((hand.palm_position.z)*1.5)
                 else:
-                    rightHeight = hand.palm_position.y
-                    rightForward = hand.palm_position.z
-                try:
-                    print "Turn: " + str(leftHeight-rightHeight)
-                    print "Throttle: " + str((leftForward+rightForward)/2)
-                except:
-                    pass
+                    right = -int((hand.palm_position.z)*1.5)
+            try:
+                transmit = str(left) + ',' + str(right)
+                print transmit
+
+            except:
+                pass
         else:
-            print "0"
+            transmit = '0' + ',' + '0'
+            print(transmit)
 
 def main():
     # Create a sample listener and controller
