@@ -25,9 +25,9 @@ while True:
         print 'connection from', client_address
 
         while True:
-            throttle = raw_input("Enter throttle: ")
-            steering = raw_input("Enter steering: ")
-            transmit = throttle+','+steering
+            left = raw_input("Enter right: ")
+            right = raw_input("Enter left: ")
+            transmit = left+','+right
             print len(transmit)
             connection.sendall(transmit)
 
